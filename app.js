@@ -7,7 +7,7 @@ const app = express();
 app.use(express.static(path.join(__dirname, '/public')));
 
 
-app.get('/:date', (req, res) => {
+app.get('/api/:date', (req, res) => {
     let input = req.params.date;
     if (input.match(/^\d+$/)) {
         input = parseInt(input) * 1000;
@@ -17,6 +17,10 @@ app.get('/:date', (req, res) => {
         unix: date.valueOf()/1000,
         natural: moment(date).format('MMMM D, YYYY')
     });
+});
+
+app.get('*', (req, res) => {
+    res.redirect('/');
 });
 
 const port = process.env.PORT || 8080;
