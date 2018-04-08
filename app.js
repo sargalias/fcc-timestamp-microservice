@@ -11,11 +11,14 @@ app.get('/api/:date', (req, res) => {
     let input = req.params.date;
     if (input.match(/^\d+$/)) {
         input = parseInt(input) * 1000;
+        if (input < 0) {
+            return res.json({unix: null, natural: null});
+        }
     }
     let date = new Date(input);
     res.json({
         unix: date.valueOf()/1000,
-        natural: moment(date).format('MMMM D, YYYY')
+        natural: (date.valueOf()) ? moment(date).format('MMMM D, YYYY') : null
     });
 });
 
